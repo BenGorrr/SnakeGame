@@ -32,12 +32,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.move_ip(SNAKE_BLOCK, 0)
 
         #prevent sprite going off screen
-        if (self.rect.top < 0):
-            return True
-        if (self.rect.bottom > SCREEN_HEIGHT):
-            return True
-        if (self.rect.left < 0):
-            return True
-        if (self.rect.right > SCREEN_WIDTH):
+        if self.rect.top < 0 or self.rect.bottom > SCREEN_HEIGHT or self.rect.left < 0 or self.rect.right > SCREEN_WIDTH:
             return True
         return False

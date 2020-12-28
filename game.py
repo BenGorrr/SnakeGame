@@ -36,9 +36,11 @@ def message(msg, color, coord):
         screen.blit(msg_surf, coord)
 
 #Initiate a player object, in this case a snake
-snake = Player()
+snakeHead = Player(True)
+snakeList = [snakeHead]
 food = None
 score = 0
+clock = pygame.time.Clock()
 
 #Run game until user ask to quit
 running = True
@@ -55,29 +57,42 @@ while running:
             running = False
 
     #Variables
-    snake_speed = 30
-    clock = pygame.time.Clock()
+    snake_speed = 10
 
+    #if there is no food, generate one
     if not food:
-        food = Food()
+        food = Food(snakeHead)
+
+    # Fill the background with white
+    screen.fill((238, 238, 238))
 
     #Get all the keys pressed
     pressed_keys = pygame.key.get_pressed()
 
     #update snake every frame
-    collided = snake.update(pressed_keys)
+    collided = snakeHead.update(pressed_keys)
     #if snake collided
-    if (collided):
+    if collided:
         running = False
-    # Fill the background with white
-    screen.fill((238, 238, 238))
-
-    # draw snake onto screen
-    screen.blit(snake.surf, snake.rect)
-    screen.blit(food.surf, (food.foodx, food.foody))
 
     # Display score board
     message("Score: " + str(score), "orange", (5, 5))
+
+    # draw snake onto screen
+    screen.blit(snakeHead.surf, snakeHead.rect)
+    screen.blit(food.surf, (food.x, food.y))
+
+    #if snake ate the food
+    #print(f"Snake: {snake.rect} Food: {food.rect}")
+    if pygame.sprite.collide_rect(snakeHead, food):
+        del food
+        food = None
+        score += 1
+        snakeList.append(Player(changes=(snakeList[-1].rect.x - snakeList[-1].changesx, snakeList[-1].rect.y - snakeList[-1].changesy)))
+    for index, snake in enumerate(snakeList):
+        print(str(index), snake.rect)
+
+    #Updates
 
     #flip the display screen (use this to update the content)
     #pygame.display.flip()
@@ -88,5 +103,5 @@ while running:
 message("GAME OVER!", "red", "center")
 pygame.display.update()
 # Quit game here
-time.sleep(1)
+#time.sleep(1)
 pygame.quit()

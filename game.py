@@ -14,11 +14,14 @@ from pygame.locals import (
 
 #import and initiate pygame
 from player import Player
+from food import Food
 import pygame
-import time
+import time, random
 pygame.init()
-
+#import constants from config
 from config import *
+
+
 #Set up drawing window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake game by Ben')
@@ -34,6 +37,7 @@ def message(msg, color, coord):
 
 #Initiate a player object, in this case a snake
 snake = Player()
+food = None
 score = 0
 
 #Run game until user ask to quit
@@ -54,6 +58,9 @@ while running:
     snake_speed = 30
     clock = pygame.time.Clock()
 
+    if not food:
+        food = Food()
+
     #Get all the keys pressed
     pressed_keys = pygame.key.get_pressed()
 
@@ -67,6 +74,7 @@ while running:
 
     # draw snake onto screen
     screen.blit(snake.surf, snake.rect)
+    screen.blit(food.surf, (food.foodx, food.foody))
 
     # Display score board
     message("Score: " + str(score), "orange", (5, 5))

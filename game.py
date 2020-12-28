@@ -23,7 +23,7 @@ from config import *
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake game by Ben')
 
-font_style = pygame.font.SysFont(None, 20)
+font_style = pygame.font.SysFont(None, FONT_SIZE)
 
 def message(msg, color, coord):
     msg_surf = font_style.render(msg, True, color)
@@ -31,6 +31,7 @@ def message(msg, color, coord):
 
 #Initiate a player object, in this case a snake
 snake = Player()
+score = 0
 
 #Run game until user ask to quit
 running = True
@@ -63,6 +64,9 @@ while running:
 
     # draw snake onto screen
     screen.blit(snake.surf, snake.rect)
+
+    # Display score board
+    message("Score: " + str(score), "orange", (5, 5))
 
     #flip the display screen (use this to update the content)
     #pygame.display.flip()

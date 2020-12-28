@@ -27,7 +27,10 @@ font_style = pygame.font.SysFont(None, FONT_SIZE)
 
 def message(msg, color, coord):
     msg_surf = font_style.render(msg, True, color)
-    screen.blit(msg_surf, coord)
+    if coord == "center":
+        screen.blit(msg_surf, (SCREEN_WIDTH/2 - msg_surf.get_width()/2, SCREEN_HEIGHT/2 - msg_surf.get_height()/2))
+    else:
+        screen.blit(msg_surf, coord)
 
 #Initiate a player object, in this case a snake
 snake = Player()
@@ -73,5 +76,9 @@ while running:
     pygame.display.update()
     clock.tick(snake_speed)
 
+#Game Over
+message("GAME OVER!", "red", "center")
+pygame.display.update()
 # Quit game here
+time.sleep(1)
 pygame.quit()

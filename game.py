@@ -23,6 +23,12 @@ from config import *
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake game by Ben')
 
+font_style = pygame.font.SysFont(None, 20)
+
+def message(msg, color, coord):
+    msg_surf = font_style.render(msg, True, color)
+    screen.blit(msg_surf, coord)
+
 #Initiate a player object, in this case a snake
 snake = Player()
 

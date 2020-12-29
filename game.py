@@ -36,9 +36,8 @@ def message(msg, color, coord):
         screen.blit(msg_surf, coord)
 
 #Initiate a player object, in this case a snake
-snakeHead = Player(True)
-snakeList = [snakeHead]
-food = None
+snake = Player(screen)
+food = Food(screen)
 score = 0
 clock = pygame.time.Clock()
 
@@ -59,41 +58,21 @@ while running:
     #Variables
     snake_speed = 10
 
-    #if there is no food, generate one
-    if not food:
-        food = Food(snakeHead)
-
     # Fill the background with white
     screen.fill((238, 238, 238))
 
-    #Get all the keys pressed
-    pressed_keys = pygame.key.get_pressed()
-
     #update snake every frame
-    collided = snakeHead.update(pressed_keys)
-    #if snake collided
-    if collided:
-        running = False
-
+    snake.update()
+    if snake.eat(food):
+        score += 1
+        food.newPos()
+    snake.collided()
     # Display score board
     message("Score: " + str(score), "orange", (5, 5))
 
-    # draw snake onto screen
-    screen.blit(snakeHead.surf, snakeHead.rect)
-    screen.blit(food.surf, (food.x, food.y))
-
-    #if snake ate the food
-    #print(f"Snake: {snake.rect} Food: {food.rect}")
-    if pygame.sprite.collide_rect(snakeHead, food):
-        del food
-        food = None
-        score += 1
-        snakeList.append(Player(changes=(snakeList[-1].rect.x - snakeList[-1].changesx, snakeList[-1].rect.y - snakeList[-1].changesy)))
-    for index, snake in enumerate(snakeList):
-        print(str(index), snake.rect)
-
-    #Updates
-
+    # screen.blit(food.surf, (food.x, food.y))
+    snake.draw()
+    food.draw()
     #flip the display screen (use this to update the content)
     #pygame.display.flip()
     pygame.display.update()

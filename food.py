@@ -13,17 +13,11 @@ class Food(pygame.sprite.Sprite):
         self.y = y
         if not x or not y:
             self.newPos()
-        # self.rect = pygame.Rect(self.x, self.y, *FOOD_SIZE)
-        # while pygame.sprite.collide_rect(self, snake_rect):
-        #     self.x = random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK, SNAKE_SIZE[0])
-        #     self.y = random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK, SNAKE_SIZE[1])
-        #     self.rect = pygame.Rect(self.x, self.y, *FOOD_SIZE)
-        # print(self.rect)
 
     def newPos(self):
         self.x = random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK, SNAKE_SIZE[0])
         self.y = random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK, SNAKE_SIZE[1])
 
     def draw(self):
-        self.screen.blit(self.surf, (self.x, self.y))
-        # pygame.draw.rect(self.screen, FOOD_COLOR, (self.x, self.y, *FOOD_SIZE))
+        #self.screen.blit(self.surf, (self.x, self.y))
+        pygame.draw.rect(self.screen, FOOD_COLOR, (self.x, self.y, *FOOD_SIZE))

@@ -11,3 +11,9 @@ FOOD_COLOR = (200, 200, 0)
 FOOD_SIZE = (20, 20)
 
 FONT_SIZE = 25
+
+# Constants (Used for bitwise operations - https://www.tutorialspoint.com/python/bitwise_operators_example.htm)
+UP    = 0b0001
+DOWN  = 0b0010
+LEFT  = 0b0100
+RIGHT = 0b1000

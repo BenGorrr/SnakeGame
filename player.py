@@ -13,9 +13,12 @@ from pygame.locals import (
 import pygame
 from config import *
 
-class Player:
+class Player(pygame.sprite.Sprite):
     def __init__(self, screen):
+        super(Player, self).__init__()
         self.screen = screen
+        self.surf = pygame.Surface(SNAKE_SIZE)
+        self.surf.fill(SNAKE_COLOR)
         #self.rect = self.surf.get_rect()
         self.body = [SNAKE_ORIGIN]
         self.width, self.height = SNAKE_SIZE
@@ -61,7 +64,8 @@ class Player:
                 #print(f"x :{x} y :{y}  bodyx :{bodyx} bodyy :{bodyy}")
                 if x >= bodyx and x + self.width <= bodyx + self.width:
                     if y >= bodyy and y + self.height <= bodyy + self.height:
-                        print("collided")
+                        return True
+        return False
 
     def eat(self, food):
         x, y = self.body[0] #get the head of the snake

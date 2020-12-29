@@ -66,7 +66,8 @@ while running:
     if snake.eat(food):
         score += 1
         food.newPos()
-    snake.collided()
+    if snake.collided():
+        running = False
     # Display score board
     message("Score: " + str(score), "orange", (5, 5))
 

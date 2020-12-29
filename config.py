@@ -3,7 +3,8 @@ SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 500
 
 SNAKE_SIZE = (20, 20) #XY
-SNAKE_COLOR = (0, 200, 0) #RGB
+# SNAKE_COLOR = (0, 200, 0) #RGB
+SNAKE_COLOR = (12, 186, 104) #RGB
 SNAKE_BLOCK = 20 #pixels between each move / frame update
 SNAKE_ORIGIN = (0, 0)
 

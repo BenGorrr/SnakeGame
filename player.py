@@ -8,6 +8,10 @@ class Player(pygame.sprite.Sprite):
         self.surf = pygame.Surface(SNAKE_SIZE)
         self.surf.fill(SNAKE_COLOR)
         self.rect = self.surf.get_rect()
+        self.head_img = pygame.image.load("images/snake_head.png")
+        self.head_img = pygame.transform.scale(self.head_img, SNAKE_SIZE)
+        #rotate to the correct direction
+        self.head_img = pygame.transform.rotate(self.head_img, 90)
         self.body = [SNAKE_ORIGIN]
         self.width, self.height = SNAKE_SIZE
         #Default direction of the snake
@@ -33,19 +37,31 @@ class Player(pygame.sprite.Sprite):
             self.direction = 8
         elif self.direction & RIGHT and self.prevDirection == 4:
             self.direction = 4
-        self.prevDirection = self.direction
 
         x, y = self.body[0] #get snake head
         self.body.pop() #remove last body
         if self.direction & UP:
             y = (y - SNAKE_BLOCK) % SCREEN_HEIGHT
+            if self.prevDirection != self.direction:
+                if self.prevDirection & RIGHT: self.rotateLeft()
+                else: self.rotateRight()
         elif self.direction & DOWN:
             y = (y + SNAKE_BLOCK) % SCREEN_HEIGHT
+            if self.prevDirection != self.direction:
+                if self.prevDirection & RIGHT: self.rotateRight()
+                else: self.rotateLeft()
         elif self.direction & LEFT:
             x = (x - SNAKE_BLOCK) % SCREEN_WIDTH
+            if self.prevDirection != self.direction:
+                if self.prevDirection & UP: self.rotateLeft()
+                else: self.rotateRight()
         elif self.direction & RIGHT:
             x = (x + SNAKE_BLOCK) % SCREEN_WIDTH
+            if self.prevDirection != self.direction:
+                if self.prevDirection & UP: self.rotateRight()
+                else: self.rotateLeft()
         self.body.insert(0, (x, y)) #insert new head to first index
+        self.prevDirection = self.direction
 
     def collided(self):
         x, y = self.body[0] # get snake head
@@ -69,5 +85,16 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self):
         #print(self.body)
+        i = 0
         for x, y in self.body: # Draw every body in the list including the head
-            pygame.draw.rect(self.screen, SNAKE_COLOR, (x, y, *SNAKE_SIZE))
+            if i == 0:
+                self.screen.blit(self.head_img, (x, y, *SNAKE_SIZE))
+            else:
+                pygame.draw.rect(self.screen, SNAKE_COLOR, (x, y, *SNAKE_SIZE))
+            i += 1
+
+    def rotateLeft(self):
+        self.head_img = pygame.transform.rotate(self.head_img, 90)
+
+    def rotateRight(self):
+        self.head_img = pygame.transform.rotate(self.head_img, -90)

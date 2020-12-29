@@ -37,7 +37,7 @@ def message(msg, color, coord):
 
 #Initiate a player object, in this case a snake
 snake = Player(screen)
-food = Food(screen)
+food = Food(screen, snake)
 score = 0
 clock = pygame.time.Clock()
 

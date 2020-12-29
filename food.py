@@ -1,7 +1,6 @@
 import pygame, random
 from config import *
 
-
 class Food(pygame.sprite.Sprite):
     def __init__(self, screen, snake, x=None, y=None):
         super(Food, self).__init__()
@@ -20,6 +19,7 @@ class Food(pygame.sprite.Sprite):
             collided = False
             self.x = random.randrange(0, SCREEN_WIDTH - SNAKE_BLOCK, SNAKE_SIZE[0])
             self.y = random.randrange(0, SCREEN_HEIGHT - SNAKE_BLOCK, SNAKE_SIZE[1])
+            # While generating new position, make sure it does not spawn in the snake's body
             for x, y in self.snake.body:
                 if self.x == x and self.y == y:
                     collided = True

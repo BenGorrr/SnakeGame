@@ -3,6 +3,7 @@
 #import and initiate pygame
 from player import Player
 from food import Food
+import data
 import pygame
 import time, random
 pygame.init()
@@ -39,6 +40,10 @@ def main():
     while running:
         while not alive:
             #Game Over
+            #update new score
+            if score != 0:
+                data.update(score)
+                score = 0
             message("GAME OVER!", "red", "center", 40)
             message("Press R to restart", "green", ("center", 350), 30)
             pygame.display.update()

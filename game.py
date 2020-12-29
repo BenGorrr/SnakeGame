@@ -13,6 +13,9 @@ from config import *
 #Set up drawing window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake game by Ben')
+icon = pygame.image.load("images/snake.png")
+icon = pygame.transform.scale(icon, (32, 32))
+pygame.display.set_icon(icon)
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering

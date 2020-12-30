@@ -71,7 +71,7 @@ def main():
                 # if ESCAPE key is pressed
                 if event.key == K_ESCAPE:
                     running = False
-                elif event.key == K_LEFTBRACKET:
+                elif event.key == K_LEFTBRACKET and snake_speed > 1:
                     snake_speed -= 1
                 elif event.key == K_RIGHTBRACKET:
                     snake_speed += 1

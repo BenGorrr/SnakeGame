@@ -38,7 +38,9 @@ def main():
     #Initiate a player object, in this case a snake
     snake = Player(screen)
     food = Food(screen, snake)
+    #Variables
     score = 0
+    snake_speed = 10
     clock = pygame.time.Clock()
     alive = True
     #Run game until user ask to quit
@@ -68,11 +70,15 @@ def main():
                 # if ESCAPE key is pressed
                 if event.key == K_ESCAPE:
                     running = False
+                elif event.key == K_LEFTBRACKET:
+                    snake_speed -= 1
+                elif event.key == K_RIGHTBRACKET:
+                    snake_speed += 1
+                elif event.key == K_s:
+                    snake_speed += 20
             # if user clicked close button
             if event.type == QUIT:
                 running = False
-        #Variables
-        snake_speed = 10
 
         # Fill the background with white
         #screen.fill((238, 238, 238))
@@ -83,6 +89,8 @@ def main():
         #if the snake ate a food increment score and change food position
         if snake.eat(food):
             score += 1
+            # increase snake speed every 5 food eaten
+            if score % 5 == 0: snake_speed += 1
             food.newPos()
         #if the snake collided, game over
         if snake.collided():
@@ -90,6 +98,7 @@ def main():
 
         # Display score board
         message("Score: " + str(score), "yellow", (5, 5))
+        message("Speed: " + str(snake_speed), "yellow", ("center", 5))
         # Draw snake and food
         snake.draw()
         food.draw()

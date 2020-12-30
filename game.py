@@ -105,12 +105,13 @@ def main():
         if snake.collided():
             alive = False
 
-        # Display score board
-        message("Score: " + str(score), "yellow", (5, 5))
-        message("Speed: " + str(snake_speed), "yellow", ("center", 5))
+
         # Draw snake and food
         snake.draw()
         food.draw()
+        # Display score board
+        message("Score: " + str(score), "yellow", (5, 5))
+        message("Speed: " + str(snake_speed), "yellow", ("center", 5))
         #flip the display screen (use this to update the content)
         #pygame.display.flip()
         pygame.display.update()

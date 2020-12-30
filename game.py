@@ -63,6 +63,7 @@ def main():
                         running = False
                         alive = not alive
 
+        keypressed = [0, 0, 0, 0] #UP DOWN LEFT RIGHT
         # Did the user click the window close button?
         for event in pygame.event.get():
             # did the user hit a KEY
@@ -76,6 +77,14 @@ def main():
                     snake_speed += 1
                 elif event.key == K_s:
                     snake_speed += 20
+                elif event.key == K_UP:
+                    keypressed[0] = 1
+                elif event.key == K_DOWN:
+                    keypressed[1] = 1
+                elif event.key == K_LEFT:
+                    keypressed[2] = 1
+                elif event.key == K_RIGHT:
+                    keypressed[3] = 1
             # if user clicked close button
             if event.type == QUIT:
                 running = False
@@ -85,7 +94,7 @@ def main():
         screen.blit(background, background.get_rect())
 
         #update snake every frame
-        snake.update()
+        snake.update(keypressed)
         #if the snake ate a food increment score and change food position
         if snake.eat(food):
             score += 1

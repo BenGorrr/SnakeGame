@@ -18,16 +18,15 @@ class Player(pygame.sprite.Sprite):
         self.direction = RIGHT
         self.prevDirection = self.direction
 
-    def update(self):
-        #Get pressed keys
-        pygame.event.poll()
-        self.keys = pygame.key.get_pressed()
+    def update(self, keypressed):
         # since key-presses are always 1 or 0, we can multiply each key with their respective value from the
         # static map above, LEFT = 4 in binary, so if we multiply 4*1|0 we'll get binary 0100 if it's pressed.
         # We can always safely combine 1, 2, 4 and 8 as they will never collide and thus always create a truth map of
         # which direction in bitwise friendly representation.
-        if any((self.keys[K_UP], self.keys[K_DOWN], self.keys[K_LEFT], self.keys[K_RIGHT])):
-            self.direction = self.keys[K_UP]*1 + self.keys[K_DOWN]*2 + self.keys[K_LEFT]*4 + self.keys[K_RIGHT]*8
+
+        #if any new key is pressed update direction, else direction remain the same
+        if (any(keypressed)):
+            self.direction = keypressed[0]*1 + keypressed[1]*2 + keypressed[2]*4 + keypressed[3]*8
         #make sure player cannot go reverse direction
         if self.direction & UP and self.prevDirection == 2:
             self.direction = 2

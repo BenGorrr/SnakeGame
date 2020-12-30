@@ -13,9 +13,12 @@ from config import *
 #Set up drawing window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Snake game by Ben')
+#Load window icon
 icon = pygame.image.load("images/snake.png")
 icon = pygame.transform.scale(icon, (32, 32))
 pygame.display.set_icon(icon)
+background = pygame.transform.scale(pygame.image.load("images/grass2.jpg"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+print(background.get_rect())
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering
@@ -72,7 +75,8 @@ def main():
         snake_speed = 10
 
         # Fill the background with white
-        screen.fill((238, 238, 238))
+        #screen.fill((238, 238, 238))
+        screen.blit(background, background.get_rect())
 
         #update snake every frame
         snake.update()
@@ -85,7 +89,7 @@ def main():
             alive = False
 
         # Display score board
-        message("Score: " + str(score), "orange", (5, 5))
+        message("Score: " + str(score), "yellow", (5, 5))
         # Draw snake and food
         snake.draw()
         food.draw()

@@ -6,7 +6,7 @@ class Food(pygame.sprite.Sprite):
         super(Food, self).__init__()
         self.screen = screen
         self.surf = pygame.Surface(FOOD_SIZE)
-        self.img = pygame.image.load("images/apple.jpg")
+        self.img = pygame.image.load("images/apple.png")
         self.img = pygame.transform.scale(self.img, FOOD_SIZE)
         self.surf.fill(FOOD_COLOR)
         self.width, self.height = SNAKE_SIZE

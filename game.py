@@ -86,6 +86,7 @@ def main(game_Started = False):
                 if event.type == QUIT:
                     running = False
                     gameStarted = True
+            clock.tick(snake_speed)
 
         while gameStarted and running:
             while not alive:#Game Over
@@ -103,6 +104,7 @@ def main(game_Started = False):
                         elif event.key == K_ESCAPE:
                             gameStarted = False
                             alive = True
+                clock.tick(snake_speed)
 
             keypressed = [] #UP DOWN LEFT RIGHT
             # Did the user click the window close button?
@@ -111,7 +113,11 @@ def main(game_Started = False):
                 if event.type == KEYDOWN:
                     # if ESCAPE key is pressed
                     if event.key == K_ESCAPE:
-                        running = False
+                        gameStarted = False
+                        #reset score and snake
+                        score = 0
+                        snake_speed = 10
+                        snake.__init__(screen)
                     elif event.key == K_LEFTBRACKET and snake_speed > 1:
                         snake_speed -= 1
                     elif event.key == K_RIGHTBRACKET:

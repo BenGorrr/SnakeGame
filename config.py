@@ -26,6 +26,7 @@ from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
+    K_RETURN,
     KEYDOWN,
     QUIT,
     K_LEFTBRACKET,

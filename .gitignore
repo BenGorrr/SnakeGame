@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 scores.txt
-
+*.zip
 # C extensions
 *.so
 

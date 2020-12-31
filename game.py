@@ -25,7 +25,8 @@ playBTN_rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering
-    font_style = pygame.font.SysFont(None, font_size)
+    #font_style = pygame.font.SysFont(None, font_size)
+    font_style = pygame.font.Font("SF Atarian System Extended.ttf", font_size)
     msg_surf = font_style.render(msg, True, color)
     #Custom argument to position the text on the screen
     if coord == "center":
@@ -37,7 +38,7 @@ def message(msg, color, coord, font_size=FONT_SIZE):
     else:
         screen.blit(msg_surf, coord)
 
-def main():
+def main(game_Started = False):
     #Initiate a player object, in this case a snake
     snake = Player(screen)
     food = Food(screen, snake)
@@ -48,10 +49,9 @@ def main():
     alive = True
     #Run game until user ask to quit
     running = True
-    gameStarted = False
+    gameStarted = game_Started
     while running:
-        while not gameStarted:
-            #First game start
+        while not gameStarted: #MENU
             screen.blit(background, background.get_rect())
             screen.blit(playBTN, playBTN_rect)
             pygame.display.update()
@@ -59,6 +59,8 @@ def main():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
+                        gameStarted = True
+                    if event.key == K_RETURN:
                         gameStarted = True
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     pos = pygame.mouse.get_pos()
@@ -75,16 +77,16 @@ def main():
                 if score != 0:
                     data.update(score)
                     score = 0
-                message("GAME OVER!", "red", "center", 40)
-                message("Press R to restart", "green", ("center", 350), 30)
+                message("GAME OVER!", "red", "center", 80)
+                message("Press R to restart", "green", ("center", 350), 40)
                 pygame.display.update()
                 for event in pygame.event.get():
                     if event.type == KEYDOWN:
                         if event.key == pygame.K_r:
-                            main()
+                            main(True)
                         elif event.key == K_ESCAPE:
-                            running = False
-                            alive = not alive
+                            gameStarted = False
+                            alive = True
 
             keypressed = [] #UP DOWN LEFT RIGHT
             # Did the user click the window close button?
@@ -113,7 +115,6 @@ def main():
                     running = False
 
             # Fill the background with white
-            #screen.fill((238, 238, 238))
             screen.blit(background, background.get_rect())
             #update snake every frame
             snake.update(keypressed)

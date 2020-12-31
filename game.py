@@ -44,7 +44,7 @@ def displayScoreboard(scores_board):
     coord = ["center", 250]
     coord_offset = 50
     message("Leaderboard:", "white", coord, 50)
-    for scores in scores_board[1:6]: #Loop tru each scores
+    for scores in scores_board[1:5]: #Loop tru each scores
         # increase coord y with the offset
         coord[1] += coord_offset
         #combine the string

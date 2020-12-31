@@ -11,7 +11,7 @@ SNAKE_ORIGIN = (0, 0)
 FOOD_COLOR = (200, 200, 0)
 FOOD_SIZE = (20, 20)
 
-FONT_SIZE = 25
+FONT_SIZE = 25 #Default font size if not specified
 
 # Constants (Used for bitwise operations - https://www.tutorialspoint.com/python/bitwise_operators_example.htm)
 UP    = 0b0001

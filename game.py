@@ -5,6 +5,7 @@ from player import Player
 from food import Food
 import data
 import pygame
+import pygame.freetype
 import time, random
 pygame.init()
 #import constants from config
@@ -21,22 +22,35 @@ background = pygame.transform.scale(pygame.image.load("images/grass2.jpg"), (SCR
 playBTN = pygame.transform.scale(pygame.image.load("images/play-btn.png"), (200, 100))
 playBTN = playBTN.convert_alpha()
 playBTN_rect = playBTN.get_rect()
-playBTN_rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+playBTN_rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering
     #font_style = pygame.font.SysFont(None, font_size)
-    font_style = pygame.font.Font("SF Atarian System Extended.ttf", font_size)
-    msg_surf = font_style.render(msg, True, color)
+    #font_style = pygame.font.Font("SF Atarian System Extended.ttf", font_size)
+    font_style = pygame.freetype.Font("Alone On Earth.otf", font_size)
+    msg_surf = font_style.render(msg, color)
     #Custom argument to position the text on the screen
     if coord == "center":
-        screen.blit(msg_surf, (SCREEN_WIDTH/2 - msg_surf.get_width()/2, SCREEN_HEIGHT/2 - msg_surf.get_height()/2))
+        screen.blit(msg_surf[0], (SCREEN_WIDTH/2 - msg_surf[1].width/2, SCREEN_HEIGHT/2 - msg_surf[1].height/2))
     elif coord[0] == "center":
-        screen.blit(msg_surf, (SCREEN_WIDTH/2 - msg_surf.get_width()/2, coord[1]))
+        screen.blit(msg_surf[0], (SCREEN_WIDTH/2 - msg_surf[1].width/2, coord[1]))
     elif coord[1] == "center":
-        screen.blit(msg_surf, (coord[0], SCREEN_HEIGHT/2 - msg_surf.get_height()/2))
+        screen.blit(msg_surf[0], (coord[0], SCREEN_HEIGHT/2 - msg_surf[1].height/2))
     else:
-        screen.blit(msg_surf, coord)
+        screen.blit(msg_surf[0], coord)
+
+def displayScoreboard(scores_board):
+    coord = ["center", 250]
+    coord_offset = 50
+    message("Leaderboard:", "white", coord, 50)
+    for scores in scores_board[1:6]: #Loop tru each scores
+        # increase coord y with the offset
+        coord[1] += coord_offset
+        #combine the string
+        msg = scores[0] + "    " + scores[1]
+        #render the msg
+        message(msg, "white", coord, 48)
 
 def main(game_Started = False):
     #Initiate a player object, in this case a snake
@@ -51,9 +65,11 @@ def main(game_Started = False):
     running = True
     gameStarted = game_Started
     while running:
+        scores_board = data.read("scores.txt")
         while not gameStarted: #MENU
             screen.blit(background, background.get_rect())
             screen.blit(playBTN, playBTN_rect)
+            displayScoreboard(scores_board)
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == KEYDOWN:

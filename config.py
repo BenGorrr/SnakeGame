@@ -30,5 +30,6 @@ from pygame.locals import (
     QUIT,
     K_LEFTBRACKET,
     K_RIGHTBRACKET,
-    K_s
+    K_s,
+    MOUSEBUTTONDOWN
 )

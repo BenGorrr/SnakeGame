@@ -18,6 +18,10 @@ icon = pygame.image.load("images/snake.png")
 icon = pygame.transform.scale(icon, (32, 32))
 pygame.display.set_icon(icon)
 background = pygame.transform.scale(pygame.image.load("images/grass2.jpg"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+playBTN = pygame.transform.scale(pygame.image.load("images/play-btn.png"), (200, 100))
+playBTN = playBTN.convert_alpha()
+playBTN_rect = playBTN.get_rect()
+playBTN_rect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering
@@ -44,76 +48,95 @@ def main():
     alive = True
     #Run game until user ask to quit
     running = True
+    gameStarted = False
     while running:
-        while not alive:
-            #Game Over
-            #update new score
-            if score != 0:
-                data.update(score)
-                score = 0
-            message("GAME OVER!", "red", "center", 40)
-            message("Press R to restart", "green", ("center", 350), 30)
+        while not gameStarted:
+            #First game start
+            screen.blit(background, background.get_rect())
+            screen.blit(playBTN, playBTN_rect)
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
-                    if event.key == pygame.K_r:
-                        main()
-                    elif event.key == K_ESCAPE:
+                    if event.key == K_ESCAPE:
                         running = False
-                        alive = not alive
-
-        keypressed = [] #UP DOWN LEFT RIGHT
-        # Did the user click the window close button?
-        for event in pygame.event.get():
-            # did the user hit a KEY
-            if event.type == KEYDOWN:
-                # if ESCAPE key is pressed
-                if event.key == K_ESCAPE:
+                        gameStarted = True
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    pos = pygame.mouse.get_pos()
+                    if playBTN_rect.collidepoint(pos):
+                        gameStarted = True
+                # if user clicked close button
+                if event.type == QUIT:
                     running = False
-                elif event.key == K_LEFTBRACKET and snake_speed > 1:
-                    snake_speed -= 1
-                elif event.key == K_RIGHTBRACKET:
-                    snake_speed += 1
-                elif event.key == K_s:
-                    snake_speed += 20
-                elif event.key == K_UP:
-                    keypressed = [1, 0, 0, 0]
-                elif event.key == K_DOWN:
-                    keypressed = [0,1, 0, 0]
-                elif event.key == K_LEFT:
-                    keypressed = [0, 0, 1, 0]
-                elif event.key == K_RIGHT:
-                    keypressed = [0, 0, 0, 1]
-            # if user clicked close button
-            if event.type == QUIT:
-                running = False
+                    gameStarted = True
 
-        # Fill the background with white
-        #screen.fill((238, 238, 238))
-        screen.blit(background, background.get_rect())
-        #update snake every frame
-        snake.update(keypressed)
-        #if the snake ate a food increment score and change food position
-        if snake.eat(food):
-            score += 1
-            # increase snake speed every 5 food eaten
-            if score % 5 == 0: snake_speed += 1
-            food.newPos()
-        #if the snake collided, game over
-        if snake.collided():
-            alive = False
+        while gameStarted and running:
+            while not alive:#Game Over
+                #update new score
+                if score != 0:
+                    data.update(score)
+                    score = 0
+                message("GAME OVER!", "red", "center", 40)
+                message("Press R to restart", "green", ("center", 350), 30)
+                pygame.display.update()
+                for event in pygame.event.get():
+                    if event.type == KEYDOWN:
+                        if event.key == pygame.K_r:
+                            main()
+                        elif event.key == K_ESCAPE:
+                            running = False
+                            alive = not alive
 
+            keypressed = [] #UP DOWN LEFT RIGHT
+            # Did the user click the window close button?
+            for event in pygame.event.get():
+                # did the user hit a KEY
+                if event.type == KEYDOWN:
+                    # if ESCAPE key is pressed
+                    if event.key == K_ESCAPE:
+                        running = False
+                    elif event.key == K_LEFTBRACKET and snake_speed > 1:
+                        snake_speed -= 1
+                    elif event.key == K_RIGHTBRACKET:
+                        snake_speed += 1
+                    elif event.key == K_s:
+                        snake_speed += 20
+                    elif event.key == K_UP:
+                        keypressed = [1, 0, 0, 0]
+                    elif event.key == K_DOWN:
+                        keypressed = [0,1, 0, 0]
+                    elif event.key == K_LEFT:
+                        keypressed = [0, 0, 1, 0]
+                    elif event.key == K_RIGHT:
+                        keypressed = [0, 0, 0, 1]
+                # if user clicked close button
+                if event.type == QUIT:
+                    running = False
 
-        # Draw snake and food
-        snake.draw()
-        food.draw()
-        # Display score board
-        message("Score: " + str(score), "yellow", (5, 5))
-        message("Speed: " + str(snake_speed), "yellow", ("center", 5))
-        #flip the display screen (use this to update the content)
-        #pygame.display.flip()
-        pygame.display.update()
-        clock.tick(snake_speed)
+            # Fill the background with white
+            #screen.fill((238, 238, 238))
+            screen.blit(background, background.get_rect())
+            #update snake every frame
+            snake.update(keypressed)
+            #if the snake ate a food increment score and change food position
+            if snake.eat(food):
+                score += 1
+                # increase snake speed every 5 food eaten
+                if score % 5 == 0: snake_speed += 1
+                food.newPos()
+            #if the snake collided, game over
+            if snake.collided():
+                alive = False
+
+            # Draw snake and food
+            snake.draw()
+            food.draw()
+            # Display score board
+            message("Score: " + str(score), "yellow", (5, 5))
+            message("Speed: " + str(snake_speed), "yellow", ("center", 5))
+            #flip the display screen (use this to update the content)
+            #pygame.display.flip()
+            pygame.display.update()
+            clock.tick(snake_speed)
 
     # Quit game here
     pygame.quit()

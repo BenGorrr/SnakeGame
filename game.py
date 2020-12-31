@@ -18,7 +18,6 @@ icon = pygame.image.load("images/snake.png")
 icon = pygame.transform.scale(icon, (32, 32))
 pygame.display.set_icon(icon)
 background = pygame.transform.scale(pygame.image.load("images/grass2.jpg"), (SCREEN_WIDTH, SCREEN_HEIGHT))
-print(background.get_rect())
 
 def message(msg, color, coord, font_size=FONT_SIZE):
     # set font style for rendering
@@ -63,7 +62,7 @@ def main():
                         running = False
                         alive = not alive
 
-        keypressed = [0, 0, 0, 0] #UP DOWN LEFT RIGHT
+        keypressed = [] #UP DOWN LEFT RIGHT
         # Did the user click the window close button?
         for event in pygame.event.get():
             # did the user hit a KEY
@@ -78,13 +77,13 @@ def main():
                 elif event.key == K_s:
                     snake_speed += 20
                 elif event.key == K_UP:
-                    keypressed[0] = 1
+                    keypressed = [1, 0, 0, 0]
                 elif event.key == K_DOWN:
-                    keypressed[1] = 1
+                    keypressed = [0,1, 0, 0]
                 elif event.key == K_LEFT:
-                    keypressed[2] = 1
+                    keypressed = [0, 0, 1, 0]
                 elif event.key == K_RIGHT:
-                    keypressed[3] = 1
+                    keypressed = [0, 0, 0, 1]
             # if user clicked close button
             if event.type == QUIT:
                 running = False
@@ -92,7 +91,6 @@ def main():
         # Fill the background with white
         #screen.fill((238, 238, 238))
         screen.blit(background, background.get_rect())
-
         #update snake every frame
         snake.update(keypressed)
         #if the snake ate a food increment score and change food position

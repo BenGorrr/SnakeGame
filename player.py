@@ -61,6 +61,7 @@ class Player(pygame.sprite.Sprite):
                 else: self.rotateLeft()
         self.body.insert(0, (x, y)) #insert new head to first index
         self.prevDirection = self.direction
+        #self.printDirection()
 
     def collided(self):
         x, y = self.body[0] # get snake head
@@ -97,3 +98,13 @@ class Player(pygame.sprite.Sprite):
 
     def rotateRight(self):
         self.head_img = pygame.transform.rotate(self.head_img, -90)
+
+    def printDirection(self):
+        if self.direction & UP:
+            print("UP")
+        elif self.direction & DOWN:
+            print("DOWN")
+        elif self.direction & LEFT:
+            print("LEFT")
+        elif self.direction & RIGHT:
+            print("RIGHT")

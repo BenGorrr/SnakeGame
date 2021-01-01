@@ -4,14 +4,20 @@ import csv
 
 def read(filename):
     scores = []
-    with open(filename) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line = 0
-        for row in csv_reader: #HEADER will be the first row
-            if row != []:
-                scores.append(row)
-            line += 1
-    return scores
+    try:
+        with open(filename) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line = 0
+            for row in csv_reader: #HEADER will be the first row
+                if row != []:
+                    scores.append(row)
+                line += 1
+        return scores
+    except IOError:
+        with open(filename, "w") as csv_file:
+            print("Created " + filename)
+        write(filename, [["Number", "Scores"]])
+        return scores
 
 def write(filename, scores):
     with open(filename, mode='w') as csv_file:
